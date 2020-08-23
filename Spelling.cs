@@ -96,15 +96,13 @@ namespace SpellChecker
             inputDictionary = inputDictionary.Replace(" ", "\n");
             List<string> dictList = inputDictionary.Split("\n", StringSplitOptions.RemoveEmptyEntries).ToList();
             _dictionary.Clear();
-            foreach (string word in dictList)
+            for (int i = 0; i < dictList.Count; i++)
             {
-                string trimmedWord = word.Trim().ToLower();
+                string trimmedWord = dictList[i].Trim().ToLower();
                 if (_wordRegex.IsMatch(trimmedWord))
                 {
-                    if (_dictionary.ContainsKey(trimmedWord))
-                        _dictionary[trimmedWord]++;
-                    else
-                        _dictionary.Add(trimmedWord, 1);
+                    if (!_dictionary.ContainsKey(trimmedWord))
+                        _dictionary.Add(trimmedWord, i);
                 }
             }
         }
@@ -140,10 +138,9 @@ namespace SpellChecker
             if (candidates.Count > 1)
             {
                 string result = "{";
-                foreach (var candidate in candidates)
+                foreach (var candidate in candidates.OrderBy(x => x.Value))
                     result += candidate.Key + " ";
                 result = result.Remove(result.Length - 1) + "}";
-                result = result.Replace(" ", ", ");
                 return result;
             }
             return "";
