@@ -47,7 +47,7 @@ namespace SpellChecker
         {
             List<Tuple<string, string>> splits = new List<Tuple<string, string>>();
             List<Tuple<string, prevEdit, int>> edits = new List<Tuple<string, prevEdit, int>>();
-            for(int i = 0; i < word.Length; i++)
+            for(int i = 0; i <= word.Length; i++)
             {
                 var tuple = new Tuple<string, string>(word.Substring(0, i), word.Substring(i));
                 splits.Add(tuple);
